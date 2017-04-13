@@ -1,4 +1,4 @@
-<!-- SPIKE 1 - SerialPort and Socket.IO Client -->
+<!-- SPIKE 2 - SerialPort and Socket.IO Client -->
 <!-- Author: Simon Caven -->
 <!-- Last Modified: 13/04/2017 -->
 
@@ -20,7 +20,7 @@ div.header{
 </head>
 
 <body>
-  <h1 style="color:darkred">SPIKE1 - SOCKET-IO RESPONSE TIMES</h1>
+  <h1 style="color:darkred">SPIKE2 - FIREBASE RESPONSE TIMES</h1>
   
   <div class="title">RESPONSE TIME</div><div id="Response"></div>
   <div class="header"> Count</div><div id="Count"></div>
@@ -30,7 +30,19 @@ div.header{
   <div class="title">CLIENT</div><div id="Client"></div>
   <p>***Millseconds since 1/1/1970***</p>
 
-  <script src="/socket.io/socket.io.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/3.7.3/firebase.js"></script>
+  <script>
+    // Initialize Firebase
+    var config = {
+      apiKey: "AIzaSyA6PGuYFKpoujL630LdYTAffJup3lX8Zd4",
+      authDomain: "team20a2.firebaseapp.com",
+      databaseURL: "https://team20a2.firebaseio.com",
+      storageBucket: "team20a2.appspot.com",
+      messagingSenderId: "741139816722"
+    };
+    firebase.initializeApp(config);
+  </script>
+  
   <script>
     var socket = io();
     var clienTime;
@@ -39,6 +51,8 @@ div.header{
     var count = 0;
     var average;
     var total = 0;
+
+    
     
 
     socket.on('server', function (serverTime) {
