@@ -1,28 +1,33 @@
 
 
+/*
+SPIKE 1 - SerialPort and Socket.IO Server
+Author: Simon Caven
+Last Modified: 13/04/2017
+ */
 
-// server and socket.io set up and serialport
+// server and socket.io set up 
 var app = require('express')();
 var http = require('http').Server(app);
 var io = require('socket.io')(http);
 
+// serialport set up
 var SerialPort = require("serialport");
 var serialport = new SerialPort("/dev/ttyACM0",{
     parser: SerialPort.parsers.readline('\n')
 });
 
+var serverTime;
+var jsDate;
 
+// serve page for get requests
 app.get('/', function (req, res) {
-
-  //send the index.html file for all requests
   res.sendFile(__dirname + '/serialClient.html');
-
 });
 
+// set port
 http.listen(3001, function () {
-
-  console.log('listening on *:3001');
-
+  console.log('listening on *:3001'); 
 });
 
 
@@ -34,23 +39,22 @@ serialport.on('open', function(){
     io.on('connection', function (socket) {
         console.log('Get a connection');
 
-    serialport.on('data', function(data){
-                var d = new Date();
-                timestamp = d.getTime();
-                
-                console.log(data);
-                console.log("Timestamp: " + timestamp);  
-                socket.emit('send', timestamp);
+        // data from board
+        serialport.on('data', function(data){
+            jsDate = new Date();
+            serverTime = jsDate.getTime();
+            
+            console.log("ServerTime: " + serverTime);  
+            socket.emit('server', serverTime);
+        });
+    
     });
   
 });
 
-    
-});
 
 
 
-var timestamp = 0;
 
 
 
