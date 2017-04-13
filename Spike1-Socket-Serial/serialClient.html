@@ -1,0 +1,23 @@
+<html>
+
+<head></head>
+
+<body>
+  <div id="message"></div>
+
+  <script src="/socket.io/socket.io.js"></script>
+  <script>
+    var socket = io();
+    var rec_time;
+    socket.on('send', function (msg) {
+      var d = new Date();
+      rec_time = d.getTime();
+
+      var display = rec_time - msg;
+      document.getElementById("message").innerHTML =  display;
+    });
+    
+    
+  </script>
+</body>
+</html>

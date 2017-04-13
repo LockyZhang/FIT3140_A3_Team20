@@ -2,18 +2,26 @@
 
 
 // server and socket.io set up and serialport
-var http = require('http');
-var express = require('express');
-var app = express();
+var app = require('express')();
+var http = require('http').Server(app);
+var io = require('socket.io')(http);
+
 var SerialPort = require("serialport");
-var serialport = new SerialPort("/dev/ttyACM0");
-var server = http.createServer(app).listen(3000);
-var io = require('socket.io').listen(server);
+var serialport = new SerialPort("/dev/ttyACM0",{
+    parser: SerialPort.parsers.readline('\n')
+});
+
 
 app.get('/', function (req, res) {
 
   //send the index.html file for all requests
-  res.sendFile(__dirname + '/index.html');
+  res.sendFile(__dirname + '/serialClient.html');
+
+});
+
+http.listen(3001, function () {
+
+  console.log('listening on *:3001');
 
 });
 
@@ -23,20 +31,22 @@ serialport.on('open', function(){
     console.log('Serial Port Opend');
 
     // set up socket and socket listening events
-    io.on('connection', (socket) => {
-        console.log('socket connected');
-        
-        serialport.on('data', function(data){
-            var d = new Date();
-            timestamp = d.getTime();
-            
-            console.log(data);
-            console.log("Timestamp: " + timestamp);  
-            socket.emit('send', timestamp);
-        });  
+    io.on('connection', function (socket) {
+        console.log('Get a connection');
+
+    serialport.on('data', function(data){
+                var d = new Date();
+                timestamp = d.getTime();
+                
+                console.log(data);
+                console.log("Timestamp: " + timestamp);  
+                socket.emit('send', timestamp);
     });
+  
 });
 
+    
+});
 
 
 
