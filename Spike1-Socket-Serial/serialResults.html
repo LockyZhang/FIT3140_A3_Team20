@@ -1,8 +1,6 @@
-<!-- SPIKE 1 - SerialPort and Socket.IO Server -->
-<!-- Author: Simon Caven -->
-<!-- Last Modified: 13/04/2017 -->
-<html><head>
-<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+
+<!-- saved from url=(0022)http://localhost:3001/ -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <style>
 div.title{
   color:aqua;
@@ -18,15 +16,15 @@ div.header{
 <body>
   <h1 style="color:darkred">SPIKE1 - SOCKET-IO RESPONSE TIMES</h1>
   
-  <div class="title">RESPONSE TIME</div><div id="Response">2</div>
-  <div class="header"> Count</div><div id="Count">17</div>
-  <div class="header"> Running Average</div><div id="Average">1.6470588235294117</div>
+  <div class="title">LAST RESPONSE TIME</div><div id="Response">1</div>
+  <div class="header"> Count</div><div id="Count">20</div>
+  <div class="header"> Running Average</div><div id="Average">1.35</div>
   <pre></pre>
-  <div class="title">SERVER</div><div id="Server">1492095217632</div>
-  <div class="title">CLIENT</div><div id="Client">1492095217634</div>
+  <div class="title">SERVER</div><div id="Server">1492154593559</div>
+  <div class="title">CLIENT</div><div id="Client">1492154593560</div>
   <p>***Millseconds since 1/1/1970***</p>
 
-  <script src="serialResults_files/socket.js"></script>
+  <script src="./serialResults_files/socket.io.js"></script>
   <script>
     var socket = io();
     var clienTime;

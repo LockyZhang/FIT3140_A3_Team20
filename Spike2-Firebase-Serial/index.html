@@ -1,4 +1,4 @@
-<!-- SPIKE 2 - SerialPort and Socket.IO Client -->
+<!-- SPIKE 2 - SerialPort and Firebase Client -->
 <!-- Author: Simon Caven -->
 <!-- Last Modified: 13/04/2017 -->
 
@@ -22,7 +22,7 @@ div.header{
 <body>
   <h1 style="color:darkred">SPIKE2 - FIREBASE RESPONSE TIMES</h1>
   
-  <div class="title">RESPONSE TIME</div><div id="Response"></div>
+  <div class="title">LAST RESPONSE TIME</div><div id="Response"></div>
   <div class="header"> Count</div><div id="Count"></div>
   <div class="header"> Running Average</div><div id="Average"></div>
   <pre></pre>
@@ -44,7 +44,6 @@ div.header{
   </script>
   
   <script>
-    var socket = io();
     var clienTime;
     var jsDate;
     var responseTime;
@@ -52,10 +51,16 @@ div.header{
     var average;
     var total = 0;
 
-    
-    
+    var database = firebase.database();
+    var storage = firebase.storage();
+    var ref = database.ref("/spike")
 
-    socket.on('server', function (serverTime) {
+    ref.off();
+
+    ref.limitToLast(1).on("child_added", function(snapshot, prevChildKey) {
+      var newPost = snapshot.val();
+      var serverTime = newPost.timestamp;
+
       jsDate = new Date();
       clientTime = jsDate.getTime();
       responseTime = clientTime - serverTime;
@@ -68,7 +73,9 @@ div.header{
       document.getElementById("Client").innerHTML =  clientTime;
       document.getElementById("Count").innerHTML =  count;
       document.getElementById("Average").innerHTML =  average;
+
     });
+
     
     
   </script>

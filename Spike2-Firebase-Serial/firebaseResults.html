@@ -1,0 +1,77 @@
+
+<!-- saved from url=(0022)http://localhost:5000/ -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<style>
+div.title{
+  color:aqua;
+}
+
+div.header{
+  color:crimson;
+}
+</style>
+
+</head>
+
+<body>
+  <h1 style="color:darkred">SPIKE2 - FIREBASE RESPONSE TIMES</h1>
+  
+  <div class="title">LAST RESPONSE TIME</div><div id="Response">281</div>
+  <div class="header"> Count</div><div id="Count">20</div>
+  <div class="header"> Running Average</div><div id="Average">260.95</div>
+  <pre></pre>
+  <div class="title">SERVER</div><div id="Server">1492154197506</div>
+  <div class="title">CLIENT</div><div id="Client">1492154197787</div>
+  <p>***Millseconds since 1/1/1970***</p>
+
+  <script src="./firebaseResults_files/firebase.js"></script>
+  <script>
+    // Initialize Firebase
+    var config = {
+      apiKey: "AIzaSyA6PGuYFKpoujL630LdYTAffJup3lX8Zd4",
+      authDomain: "team20a2.firebaseapp.com",
+      databaseURL: "https://team20a2.firebaseio.com",
+      storageBucket: "team20a2.appspot.com",
+      messagingSenderId: "741139816722"
+    };
+    firebase.initializeApp(config);
+  </script>
+  
+  <script>
+    var clienTime;
+    var jsDate;
+    var responseTime;
+    var count = 0;
+    var average;
+    var total = 0;
+
+    var database = firebase.database();
+    var storage = firebase.storage();
+    var ref = database.ref("/spike")
+
+    ref.off();
+
+    ref.limitToLast(1).on("child_added", function(snapshot, prevChildKey) {
+      var newPost = snapshot.val();
+      var serverTime = newPost.timestamp;
+
+      jsDate = new Date();
+      clientTime = jsDate.getTime();
+      responseTime = clientTime - serverTime;
+      count += 1;
+      total = total + responseTime;
+      average = total/Number(count);
+
+      document.getElementById("Response").innerHTML =  responseTime;
+      document.getElementById("Server").innerHTML =  serverTime;
+      document.getElementById("Client").innerHTML =  clientTime;
+      document.getElementById("Count").innerHTML =  count;
+      document.getElementById("Average").innerHTML =  average;
+
+    });
+
+    
+    
+  </script>
+
+</body></html>

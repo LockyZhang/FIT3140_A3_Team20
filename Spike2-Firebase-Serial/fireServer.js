@@ -19,7 +19,7 @@ admin.initializeApp({
 
 // As an admin, the app has access to read and write all data, regardless of Security Rules
 var db = admin.database();
-var ref = db.ref("/motionSensorData"); // channel name, ***set up diff channel or DB
+var ref = db.ref("/spike"); // channel name
 
 // serialport set up
 var SerialPort = require("serialport");
@@ -29,3 +29,20 @@ var serialport = new SerialPort("/dev/ttyACM0",{
 
 var serverTime;
 var jsDate;
+
+// listen to events from the board and post to firebase
+serialport.on('open', function(){
+    console.log('Serial Port Opend');
+
+        // data from board
+        serialport.on('data', function(data){
+            jsDate = new Date();
+            serverTime = jsDate.getTime();
+            
+            console.log("ServerTime: " + serverTime);  
+            ref.push({
+              timestamp : serverTime
+            });
+            ref.remove(); // remove so client doesn't pick up data from last run
+        }); 
+});
