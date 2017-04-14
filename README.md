@@ -1,4 +1,4 @@
-# Assignment 3 IoT Control Panel - TEAM 20
+# Assignment 3 Spikes - TEAM 20
 
 ## SPIKE 1
 
