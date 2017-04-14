@@ -1,10 +1,5 @@
 # Assignment 3 IoT Control Panel - TEAM 20
 
-
-This Web App controls the Arduino Uno board by proving switches and buttons that communicate with a Firebase database and client.
-The aim of the program is to listen to the UI events client's request from the Web App and transfer to the server. The server starts reading data from the motion sensor and client and forwards them to the firebase database. The client will also post its data to firebase.
-If an intruder event is detected as described by a sequence of "Long,Short,Long,Long" events, the intruder counter is incremented.
-
 ## SPIKE 1
 
 To run the server,
